@@ -56,16 +56,10 @@ body {
 }
 
 .publication-venue {
-  display: inline-block;
   margin: 0.25rem 0 1.5rem;
-  padding: 0.4rem 1rem;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #fef3c7, #fde68a);
-  color: #92400e;
-  font-weight: 700;
-  font-size: 0.85rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .publication-authors {
@@ -190,7 +184,8 @@ body {
 
 /* ---------- Sections ---------- */
 .section { padding: 4.5rem 1.5rem; }
-.section.hero.is-light { background: var(--bg-secondary); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
+.section.hero.is-light,
+.section.tinted { background: var(--bg-secondary); border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
 
 .title.is-3 {
   font-weight: 700 !important;
@@ -257,7 +252,7 @@ body {
 .paper-figure + .paper-figure { margin-top: 1.5rem; }
 
 /* ---------- Results carousel (one slide visible, navigate to switch) ---------- */
-.results-carousel { overflow: hidden; padding: 0.5rem 0 2.25rem; }
+.results-carousel { overflow: hidden; padding: 1rem 0 3.5rem; }
 
 .results-carousel .item {
   padding: 14px 18px;
@@ -296,7 +291,10 @@ body {
 }
 
 .slider-pagination {
-  margin-top: 0.5rem;
+  position: relative !important;
+  top: auto !important;
+  bottom: auto !important;
+  margin-top: 2.25rem !important;
 }
 
 .slider-pagination .slider-page {

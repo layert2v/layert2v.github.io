@@ -24,7 +24,7 @@
 
   <title>LayerT2V: A Unified Multi-Layer Video Generation Framework</title>
 
-  <link rel="icon" type="image/png" href="static/images/teaser.png">
+  <link rel="icon" href="data:,">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -54,10 +54,10 @@
             <h1 class="title is-1 publication-title">
               <span class="layert2v">LayerT2V</span>: A Unified Multi-Layer<br>Video Generation Framework
             </h1>
-            <div class="publication-venue">ICML 2026</div>
+            <p class="publication-venue">International Conference on Machine Learning (ICML), 2026</p>
 
             <div class="is-size-5 publication-authors">
-              <span class="author-block"><a href="https://github.com/guangzhaoli" target="_blank" rel="noopener">Guangzhao Li</a><sup>*1,5</sup>,</span>
+              <span class="author-block">Guangzhao Li<sup>*1,5</sup>,</span>
               <span class="author-block">Kangrui Cen<sup>*2,3</sup>,</span>
               <span class="author-block">Baixuan Zhao<sup>1</sup>,</span>
               <span class="author-block">Yi Xin<sup>4,5</sup>,</span>
@@ -134,16 +134,16 @@
               workflows. We propose <strong>LayerT2V</strong>, a unified multi-layer video generation framework that
               produces multiple semantically consistent outputs in a single inference pass: the full video, an
               independent background layer, and multiple foreground RGB layers with corresponding alpha mattes.
-            </p>
-            <p>
               Our key insight is that recent video generation backbones use high compression in both time and
               space, enabling us to serialize multiple layer representations along the temporal dimension and
               jointly model them on a shared generation trajectory. This turns cross-layer consistency into an
               intrinsic objective, improving semantic alignment and temporal coherence. To mitigate layer ambiguity
               and conditional leakage, we augment a shared DiT backbone with <strong>LayerAdaLN</strong> and
-              <strong>layer-aware cross-attention</strong> modulation. We also introduce <strong>VidLayer</strong>,
-              the first large-scale dataset for multi-layer video generation, providing scalable layer-aligned
-              supervision.
+              <strong>layer-aware cross-attention</strong> modulation. LayerT2V is trained in three stages:
+              alpha mask VAE adaptation, joint multi-layer learning, and multi-foreground extension. We also
+              introduce <strong>VidLayer</strong>, the first large-scale dataset for multi-layer video generation.
+              Extensive experiments demonstrate that LayerT2V substantially outperforms prior methods in visual
+              fidelity, temporal consistency, and cross-layer coherence.
             </p>
           </div>
         </div>
@@ -171,173 +171,11 @@
           with LayerAdaLN-conditioned blocks and layer-aware cross-attention to keep each layer aligned with its prompt.
         </figcaption>
       </figure>
+
     </div>
   </section>
 
-  <section class="section" id="results">
-    <div class="container is-max-desktop">
-      <div class="has-text-centered">
-        <h2 class="title is-3">Layered Generation Results</h2>
-        <p class="section-lead">
-          Each slide shows one scene with all four outputs produced in a <strong>single</strong> inference pass &mdash;
-          composited full video, background layer, foreground RGB, and the alpha matte. Use the arrows or pagination
-          dots to browse.
-        </p>
-      </div>
-    </div>
-
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-
-        <div class="item" data-sync-row="0Hy8OO_w57g-Scene-0042">
-          <div class="layer-grid four">
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/0Hy8OO_w57g-Scene-0042_full_video.mp4"></video><figcaption>Full</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/0Hy8OO_w57g-Scene-0042_background.mp4"></video><figcaption>Background</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/0Hy8OO_w57g-Scene-0042_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/0Hy8OO_w57g-Scene-0042_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
-          </div>
-        </div>
-
-        <div class="item" data-sync-row="--OxZKN4QLI-Scene-0013">
-          <div class="layer-grid four">
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/--OxZKN4QLI-Scene-0013_full_video.mp4"></video><figcaption>Full</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/--OxZKN4QLI-Scene-0013_background.mp4"></video><figcaption>Background</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/--OxZKN4QLI-Scene-0013_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/--OxZKN4QLI-Scene-0013_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
-          </div>
-        </div>
-
-        <div class="item" data-sync-row="EvCh2Zk57ts-Scene-0040">
-          <div class="layer-grid four">
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/EvCh2Zk57ts-Scene-0040_full_video.mp4"></video><figcaption>Full</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/EvCh2Zk57ts-Scene-0040_background.mp4"></video><figcaption>Background</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/EvCh2Zk57ts-Scene-0040_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/EvCh2Zk57ts-Scene-0040_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
-          </div>
-        </div>
-
-        <div class="item" data-sync-row="AYvurGC6pJg-Scene-0592">
-          <div class="layer-grid four">
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/AYvurGC6pJg-Scene-0592_full_video.mp4"></video><figcaption>Full</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/AYvurGC6pJg-Scene-0592_background.mp4"></video><figcaption>Background</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/AYvurGC6pJg-Scene-0592_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/AYvurGC6pJg-Scene-0592_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
-          </div>
-        </div>
-
-        <div class="item" data-sync-row="JijKSE5OPwI-Scene-1770">
-          <div class="layer-grid four">
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/JijKSE5OPwI-Scene-1770_full_video.mp4"></video><figcaption>Full</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/JijKSE5OPwI-Scene-1770_background.mp4"></video><figcaption>Background</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/JijKSE5OPwI-Scene-1770_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/JijKSE5OPwI-Scene-1770_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
-          </div>
-        </div>
-
-        <div class="item" data-sync-row="OGdpT2LPU1Q-Scene-0057">
-          <div class="layer-grid four">
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/OGdpT2LPU1Q-Scene-0057_full_video.mp4"></video><figcaption>Full</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/OGdpT2LPU1Q-Scene-0057_background.mp4"></video><figcaption>Background</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/OGdpT2LPU1Q-Scene-0057_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/OGdpT2LPU1Q-Scene-0057_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
-          </div>
-        </div>
-
-        <div class="item" data-sync-row="nZx3eQ9ASsE-Scene-0138">
-          <div class="layer-grid four">
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/nZx3eQ9ASsE-Scene-0138_full_video.mp4"></video><figcaption>Full</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/nZx3eQ9ASsE-Scene-0138_background.mp4"></video><figcaption>Background</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/nZx3eQ9ASsE-Scene-0138_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/nZx3eQ9ASsE-Scene-0138_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
-          </div>
-        </div>
-
-        <div class="item" data-sync-row="0oqDrVK5GtE-Scene-0007">
-          <div class="layer-grid four">
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/0oqDrVK5GtE-Scene-0007_full_video.mp4"></video><figcaption>Full</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/0oqDrVK5GtE-Scene-0007_background.mp4"></video><figcaption>Background</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/0oqDrVK5GtE-Scene-0007_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/0oqDrVK5GtE-Scene-0007_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
-          </div>
-        </div>
-
-        <div class="item" data-sync-row="BGUGoN3P-IM-Scene-0010">
-          <div class="layer-grid four">
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/BGUGoN3P-IM-Scene-0010_full_video.mp4"></video><figcaption>Full</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/BGUGoN3P-IM-Scene-0010_background.mp4"></video><figcaption>Background</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/BGUGoN3P-IM-Scene-0010_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/BGUGoN3P-IM-Scene-0010_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
-          </div>
-        </div>
-
-        <div class="item" data-sync-row="DhcLfWrLkJQ-Scene-0061">
-          <div class="layer-grid four">
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/DhcLfWrLkJQ-Scene-0061_full_video.mp4"></video><figcaption>Full</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/DhcLfWrLkJQ-Scene-0061_background.mp4"></video><figcaption>Background</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/DhcLfWrLkJQ-Scene-0061_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/DhcLfWrLkJQ-Scene-0061_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
-          </div>
-        </div>
-
-        <div class="item" data-sync-row="EFJVwi3CMnE-Scene-0115">
-          <div class="layer-grid four">
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/EFJVwi3CMnE-Scene-0115_full_video.mp4"></video><figcaption>Full</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/EFJVwi3CMnE-Scene-0115_background.mp4"></video><figcaption>Background</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/EFJVwi3CMnE-Scene-0115_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/EFJVwi3CMnE-Scene-0115_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
-          </div>
-        </div>
-
-        <div class="item" data-sync-row="k1FXU2Q3ZJ0-Scene-0019">
-          <div class="layer-grid four">
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/k1FXU2Q3ZJ0-Scene-0019_full_video.mp4"></video><figcaption>Full</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/k1FXU2Q3ZJ0-Scene-0019_background.mp4"></video><figcaption>Background</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/k1FXU2Q3ZJ0-Scene-0019_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/k1FXU2Q3ZJ0-Scene-0019_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
-          </div>
-        </div>
-
-        <div class="item" data-sync-row="oFrjTAa7N4M-Scene-0003">
-          <div class="layer-grid four">
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/oFrjTAa7N4M-Scene-0003_full_video.mp4"></video><figcaption>Full</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/oFrjTAa7N4M-Scene-0003_background.mp4"></video><figcaption>Background</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/oFrjTAa7N4M-Scene-0003_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/oFrjTAa7N4M-Scene-0003_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
-          </div>
-        </div>
-
-        <div class="item" data-sync-row="-J5se0cv8kg-Scene-0058">
-          <div class="layer-grid four">
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/-J5se0cv8kg-Scene-0058_full_video.mp4"></video><figcaption>Full</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/-J5se0cv8kg-Scene-0058_background.mp4"></video><figcaption>Background</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/-J5se0cv8kg-Scene-0058_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/-J5se0cv8kg-Scene-0058_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
-          </div>
-        </div>
-
-        <div class="item" data-sync-row="-VggiLDp3-k-Scene-0116">
-          <div class="layer-grid four">
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/-VggiLDp3-k-Scene-0116_full_video.mp4"></video><figcaption>Full</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/-VggiLDp3-k-Scene-0116_background.mp4"></video><figcaption>Background</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/-VggiLDp3-k-Scene-0116_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/-VggiLDp3-k-Scene-0116_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
-          </div>
-        </div>
-
-        <div class="item" data-sync-row="5K0aI4fUGeA-Scene-0075">
-          <div class="layer-grid four">
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/5K0aI4fUGeA-Scene-0075_full_video.mp4"></video><figcaption>Full</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/5K0aI4fUGeA-Scene-0075_background.mp4"></video><figcaption>Background</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/5K0aI4fUGeA-Scene-0075_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
-            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/5K0aI4fUGeA-Scene-0075_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section class="section hero is-light" id="dataset">
+  <section class="section" id="dataset">
     <div class="container is-max-desktop">
       <div class="has-text-centered">
         <h2 class="title is-3">VidLayer Dataset</h2>
@@ -363,6 +201,160 @@
           vehicles, and natural scenes &mdash; with semantic redundancy filtering for prompt diversity.
         </figcaption>
       </figure>
+    </div>
+  </section>
+
+  <section class="section tinted" id="results">
+    <div class="container is-max-desktop">
+      <div class="has-text-centered">
+        <h2 class="title is-3">Layered Generation Results</h2>
+        <p class="section-lead">
+          Each slide shows one scene with all four outputs produced in a <strong>single</strong> inference pass &mdash;
+          composited full video, background layer, foreground RGB, and the alpha matte. Use the arrows or pagination
+          dots to browse.
+        </p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+
+        <div class="item" data-sync-row="0Hy8OO_w57g-Scene-0042">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/0Hy8OO_w57g-Scene-0042_full_video.jpg" src="static/videos/samples/0Hy8OO_w57g-Scene-0042_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/0Hy8OO_w57g-Scene-0042_background.jpg" src="static/videos/samples/0Hy8OO_w57g-Scene-0042_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/0Hy8OO_w57g-Scene-0042_foreground.jpg" src="static/videos/samples/0Hy8OO_w57g-Scene-0042_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/0Hy8OO_w57g-Scene-0042_mask.jpg" src="static/videos/samples/0Hy8OO_w57g-Scene-0042_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="--OxZKN4QLI-Scene-0013">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/--OxZKN4QLI-Scene-0013_full_video.jpg" src="static/videos/samples/--OxZKN4QLI-Scene-0013_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/--OxZKN4QLI-Scene-0013_background.jpg" src="static/videos/samples/--OxZKN4QLI-Scene-0013_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/--OxZKN4QLI-Scene-0013_foreground.jpg" src="static/videos/samples/--OxZKN4QLI-Scene-0013_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/--OxZKN4QLI-Scene-0013_mask.jpg" src="static/videos/samples/--OxZKN4QLI-Scene-0013_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="EvCh2Zk57ts-Scene-0040">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/EvCh2Zk57ts-Scene-0040_full_video.jpg" src="static/videos/samples/EvCh2Zk57ts-Scene-0040_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/EvCh2Zk57ts-Scene-0040_background.jpg" src="static/videos/samples/EvCh2Zk57ts-Scene-0040_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/EvCh2Zk57ts-Scene-0040_foreground.jpg" src="static/videos/samples/EvCh2Zk57ts-Scene-0040_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/EvCh2Zk57ts-Scene-0040_mask.jpg" src="static/videos/samples/EvCh2Zk57ts-Scene-0040_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="AYvurGC6pJg-Scene-0592">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/AYvurGC6pJg-Scene-0592_full_video.jpg" src="static/videos/samples/AYvurGC6pJg-Scene-0592_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/AYvurGC6pJg-Scene-0592_background.jpg" src="static/videos/samples/AYvurGC6pJg-Scene-0592_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/AYvurGC6pJg-Scene-0592_foreground.jpg" src="static/videos/samples/AYvurGC6pJg-Scene-0592_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/AYvurGC6pJg-Scene-0592_mask.jpg" src="static/videos/samples/AYvurGC6pJg-Scene-0592_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="JijKSE5OPwI-Scene-1770">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/JijKSE5OPwI-Scene-1770_full_video.jpg" src="static/videos/samples/JijKSE5OPwI-Scene-1770_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/JijKSE5OPwI-Scene-1770_background.jpg" src="static/videos/samples/JijKSE5OPwI-Scene-1770_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/JijKSE5OPwI-Scene-1770_foreground.jpg" src="static/videos/samples/JijKSE5OPwI-Scene-1770_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/JijKSE5OPwI-Scene-1770_mask.jpg" src="static/videos/samples/JijKSE5OPwI-Scene-1770_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="OGdpT2LPU1Q-Scene-0057">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/OGdpT2LPU1Q-Scene-0057_full_video.jpg" src="static/videos/samples/OGdpT2LPU1Q-Scene-0057_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/OGdpT2LPU1Q-Scene-0057_background.jpg" src="static/videos/samples/OGdpT2LPU1Q-Scene-0057_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/OGdpT2LPU1Q-Scene-0057_foreground.jpg" src="static/videos/samples/OGdpT2LPU1Q-Scene-0057_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/OGdpT2LPU1Q-Scene-0057_mask.jpg" src="static/videos/samples/OGdpT2LPU1Q-Scene-0057_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="nZx3eQ9ASsE-Scene-0138">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/nZx3eQ9ASsE-Scene-0138_full_video.jpg" src="static/videos/samples/nZx3eQ9ASsE-Scene-0138_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/nZx3eQ9ASsE-Scene-0138_background.jpg" src="static/videos/samples/nZx3eQ9ASsE-Scene-0138_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/nZx3eQ9ASsE-Scene-0138_foreground.jpg" src="static/videos/samples/nZx3eQ9ASsE-Scene-0138_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/nZx3eQ9ASsE-Scene-0138_mask.jpg" src="static/videos/samples/nZx3eQ9ASsE-Scene-0138_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="0oqDrVK5GtE-Scene-0007">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/0oqDrVK5GtE-Scene-0007_full_video.jpg" src="static/videos/samples/0oqDrVK5GtE-Scene-0007_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/0oqDrVK5GtE-Scene-0007_background.jpg" src="static/videos/samples/0oqDrVK5GtE-Scene-0007_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/0oqDrVK5GtE-Scene-0007_foreground.jpg" src="static/videos/samples/0oqDrVK5GtE-Scene-0007_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/0oqDrVK5GtE-Scene-0007_mask.jpg" src="static/videos/samples/0oqDrVK5GtE-Scene-0007_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="BGUGoN3P-IM-Scene-0010">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/BGUGoN3P-IM-Scene-0010_full_video.jpg" src="static/videos/samples/BGUGoN3P-IM-Scene-0010_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/BGUGoN3P-IM-Scene-0010_background.jpg" src="static/videos/samples/BGUGoN3P-IM-Scene-0010_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/BGUGoN3P-IM-Scene-0010_foreground.jpg" src="static/videos/samples/BGUGoN3P-IM-Scene-0010_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/BGUGoN3P-IM-Scene-0010_mask.jpg" src="static/videos/samples/BGUGoN3P-IM-Scene-0010_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="DhcLfWrLkJQ-Scene-0061">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/DhcLfWrLkJQ-Scene-0061_full_video.jpg" src="static/videos/samples/DhcLfWrLkJQ-Scene-0061_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/DhcLfWrLkJQ-Scene-0061_background.jpg" src="static/videos/samples/DhcLfWrLkJQ-Scene-0061_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/DhcLfWrLkJQ-Scene-0061_foreground.jpg" src="static/videos/samples/DhcLfWrLkJQ-Scene-0061_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/DhcLfWrLkJQ-Scene-0061_mask.jpg" src="static/videos/samples/DhcLfWrLkJQ-Scene-0061_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="EFJVwi3CMnE-Scene-0115">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/EFJVwi3CMnE-Scene-0115_full_video.jpg" src="static/videos/samples/EFJVwi3CMnE-Scene-0115_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/EFJVwi3CMnE-Scene-0115_background.jpg" src="static/videos/samples/EFJVwi3CMnE-Scene-0115_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/EFJVwi3CMnE-Scene-0115_foreground.jpg" src="static/videos/samples/EFJVwi3CMnE-Scene-0115_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/EFJVwi3CMnE-Scene-0115_mask.jpg" src="static/videos/samples/EFJVwi3CMnE-Scene-0115_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="k1FXU2Q3ZJ0-Scene-0019">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/k1FXU2Q3ZJ0-Scene-0019_full_video.jpg" src="static/videos/samples/k1FXU2Q3ZJ0-Scene-0019_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/k1FXU2Q3ZJ0-Scene-0019_background.jpg" src="static/videos/samples/k1FXU2Q3ZJ0-Scene-0019_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/k1FXU2Q3ZJ0-Scene-0019_foreground.jpg" src="static/videos/samples/k1FXU2Q3ZJ0-Scene-0019_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/k1FXU2Q3ZJ0-Scene-0019_mask.jpg" src="static/videos/samples/k1FXU2Q3ZJ0-Scene-0019_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="oFrjTAa7N4M-Scene-0003">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/oFrjTAa7N4M-Scene-0003_full_video.jpg" src="static/videos/samples/oFrjTAa7N4M-Scene-0003_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/oFrjTAa7N4M-Scene-0003_background.jpg" src="static/videos/samples/oFrjTAa7N4M-Scene-0003_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/oFrjTAa7N4M-Scene-0003_foreground.jpg" src="static/videos/samples/oFrjTAa7N4M-Scene-0003_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/oFrjTAa7N4M-Scene-0003_mask.jpg" src="static/videos/samples/oFrjTAa7N4M-Scene-0003_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="-J5se0cv8kg-Scene-0058">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/-J5se0cv8kg-Scene-0058_full_video.jpg" src="static/videos/samples/-J5se0cv8kg-Scene-0058_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/-J5se0cv8kg-Scene-0058_background.jpg" src="static/videos/samples/-J5se0cv8kg-Scene-0058_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/-J5se0cv8kg-Scene-0058_foreground.jpg" src="static/videos/samples/-J5se0cv8kg-Scene-0058_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/-J5se0cv8kg-Scene-0058_mask.jpg" src="static/videos/samples/-J5se0cv8kg-Scene-0058_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="-VggiLDp3-k-Scene-0116">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/-VggiLDp3-k-Scene-0116_full_video.jpg" src="static/videos/samples/-VggiLDp3-k-Scene-0116_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/-VggiLDp3-k-Scene-0116_background.jpg" src="static/videos/samples/-VggiLDp3-k-Scene-0116_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/-VggiLDp3-k-Scene-0116_foreground.jpg" src="static/videos/samples/-VggiLDp3-k-Scene-0116_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="metadata" data-row-sync poster="static/videos/samples/-VggiLDp3-k-Scene-0116_mask.jpg" src="static/videos/samples/-VggiLDp3-k-Scene-0116_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+      </div>
     </div>
   </section>
 

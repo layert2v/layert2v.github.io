@@ -1,5 +1,483 @@
-<!doctype html>
-<html>
-  <head><meta charset="utf-8"><title>LayerT2V</title></head>
-  <body><h1>LayerT2V</h1><p>Project page</p></body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="title" content="LayerT2V: A Unified Multi-Layer Video Generation Framework">
+  <meta name="description" content="LayerT2V is a unified multi-layer text-to-video generation framework that produces the composited full video, an independent background layer, foreground RGB layers, and the corresponding alpha mattes in a single inference pass.">
+  <meta name="keywords" content="LayerT2V, multi-layer video generation, text-to-video, alpha matte, VidLayer, video diffusion, layered video, video editing">
+  <meta name="author" content="Guangzhao Li, Kangrui Cen, Baixuan Zhao, Yi Xin, Siqi Luo, Guangtao Zhai, Lei Zhang, Xiaohong Liu">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="LayerT2V: A Unified Multi-Layer Video Generation Framework">
+  <meta property="og:description" content="One inference pass, four aligned outputs — composited video, background, foreground RGB, and alpha matte.">
+  <meta property="og:url" content="https://layert2v.github.io/">
+  <meta property="og:image" content="https://layert2v.github.io/static/images/teaser.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="LayerT2V: A Unified Multi-Layer Video Generation Framework">
+  <meta name="twitter:description" content="One inference pass, four aligned outputs — composited video, background, foreground RGB, and alpha matte.">
+  <meta name="twitter:image" content="https://layert2v.github.io/static/images/teaser.png">
+
+  <title>LayerT2V: A Unified Multi-Layer Video Generation Framework</title>
+
+  <link rel="icon" type="image/png" href="static/images/teaser.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/site.css">
+
+  <script defer src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/site.js"></script>
+</head>
+<body>
+
+  <button class="scroll-to-top" type="button" aria-label="Scroll to top" title="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <section class="hero publication-header">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              <span class="layert2v">LayerT2V</span>: A Unified Multi-Layer<br>Video Generation Framework
+            </h1>
+            <div class="publication-venue">ICML 2026</div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><a href="https://github.com/guangzhaoli" target="_blank" rel="noopener">Guangzhao Li</a><sup>*1,5</sup>,</span>
+              <span class="author-block">Kangrui Cen<sup>*2,3</sup>,</span>
+              <span class="author-block">Baixuan Zhao<sup>1</sup>,</span>
+              <span class="author-block">Yi Xin<sup>4,5</sup>,</span>
+              <span class="author-block">Siqi Luo<sup>1</sup>,</span>
+              <span class="author-block">Guangtao Zhai<sup>1</sup>,</span>
+              <span class="author-block">Lei Zhang<sup>2,3</sup>,</span>
+              <span class="author-block">Xiaohong Liu<sup>&dagger;1,5</sup></span>
+            </div>
+
+            <div class="is-size-6 publication-affiliations">
+              <span class="affil-block"><sup>1</sup>Shanghai Jiao Tong University</span>
+              <span class="affil-block"><sup>2</sup>Hong Kong Polytechnic University</span>
+              <span class="affil-block"><sup>3</sup>OPPO Research Institute</span>
+              <span class="affil-block"><sup>4</sup>Nanjing University</span>
+              <span class="affil-block"><sup>5</sup>Shanghai Innovation Institute</span>
+            </div>
+
+            <p class="eql-cntrb"><sup>*</sup>Equal contribution.&nbsp;&nbsp;<sup>&dagger;</sup>Corresponding author.</p>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="https://arxiv.org/pdf/2508.04228" target="_blank" rel="noopener"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/2508.04228" target="_blank" rel="noopener"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="ai ai-arxiv"></i></span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://github.com/guangzhaoli/LayerT2V" target="_blank" rel="noopener"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fab fa-github"></i></span>
+                    <span>Code</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="https://github.com/guangzhaoli/LayerT2V" target="_blank" rel="noopener"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fas fa-database"></i></span>
+                    <span>VidLayer</span>
+                  </a>
+                </span>
+                <span class="link-block">
+                  <a href="#bibtex"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fas fa-quote-right"></i></span>
+                    <span>BibTeX</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section hero is-light" id="abstract">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Text-to-video generation has advanced rapidly, but existing methods typically output only the final
+              composited video and lack editable layered representations, limiting their use in professional
+              workflows. We propose <strong>LayerT2V</strong>, a unified multi-layer video generation framework that
+              produces multiple semantically consistent outputs in a single inference pass: the full video, an
+              independent background layer, and multiple foreground RGB layers with corresponding alpha mattes.
+            </p>
+            <p>
+              Our key insight is that recent video generation backbones use high compression in both time and
+              space, enabling us to serialize multiple layer representations along the temporal dimension and
+              jointly model them on a shared generation trajectory. This turns cross-layer consistency into an
+              intrinsic objective, improving semantic alignment and temporal coherence. To mitigate layer ambiguity
+              and conditional leakage, we augment a shared DiT backbone with <strong>LayerAdaLN</strong> and
+              <strong>layer-aware cross-attention</strong> modulation. We also introduce <strong>VidLayer</strong>,
+              the first large-scale dataset for multi-layer video generation, providing scalable layer-aligned
+              supervision.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section hero is-light" id="method">
+    <div class="container is-max-desktop">
+      <div class="has-text-centered">
+        <h2 class="title is-3">Method</h2>
+        <p class="section-lead">
+          LayerT2V leverages the high temporal-spatial compression of modern video backbones to serialize multiple
+          layer streams along a shared trajectory, augmented with <em>LayerAdaLN</em> and
+          <em>layer-aware cross-attention</em> for layer identity and prompt routing.
+        </p>
+      </div>
+
+      <figure class="paper-figure">
+        <img src="static/images/pipeline.png" alt="LayerT2V training pipeline and architecture." loading="lazy">
+        <figcaption>
+          <strong>Stage 1 &mdash; Mask VAE Adaptation</strong> fine-tunes the Wan VAE decoder to faithfully reconstruct
+          alpha mattes.
+          <strong>Stage 2 &mdash; Multi-layer Joint Generation</strong> jointly models text, video, and mask tokens
+          with LayerAdaLN-conditioned blocks and layer-aware cross-attention to keep each layer aligned with its prompt.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" id="results">
+    <div class="container is-max-desktop">
+      <div class="has-text-centered">
+        <h2 class="title is-3">Layered Generation Results</h2>
+        <p class="section-lead">
+          Each slide shows one scene with all four outputs produced in a <strong>single</strong> inference pass &mdash;
+          composited full video, background layer, foreground RGB, and the alpha matte. Use the arrows or pagination
+          dots to browse.
+        </p>
+      </div>
+    </div>
+
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+
+        <div class="item" data-sync-row="0Hy8OO_w57g-Scene-0042">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/0Hy8OO_w57g-Scene-0042_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/0Hy8OO_w57g-Scene-0042_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/0Hy8OO_w57g-Scene-0042_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/0Hy8OO_w57g-Scene-0042_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="--OxZKN4QLI-Scene-0013">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/--OxZKN4QLI-Scene-0013_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/--OxZKN4QLI-Scene-0013_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/--OxZKN4QLI-Scene-0013_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/--OxZKN4QLI-Scene-0013_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="EvCh2Zk57ts-Scene-0040">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/EvCh2Zk57ts-Scene-0040_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/EvCh2Zk57ts-Scene-0040_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/EvCh2Zk57ts-Scene-0040_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/EvCh2Zk57ts-Scene-0040_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="AYvurGC6pJg-Scene-0592">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/AYvurGC6pJg-Scene-0592_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/AYvurGC6pJg-Scene-0592_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/AYvurGC6pJg-Scene-0592_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/AYvurGC6pJg-Scene-0592_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="JijKSE5OPwI-Scene-1770">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/JijKSE5OPwI-Scene-1770_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/JijKSE5OPwI-Scene-1770_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/JijKSE5OPwI-Scene-1770_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/JijKSE5OPwI-Scene-1770_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="OGdpT2LPU1Q-Scene-0057">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/OGdpT2LPU1Q-Scene-0057_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/OGdpT2LPU1Q-Scene-0057_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/OGdpT2LPU1Q-Scene-0057_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/OGdpT2LPU1Q-Scene-0057_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="nZx3eQ9ASsE-Scene-0138">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/nZx3eQ9ASsE-Scene-0138_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/nZx3eQ9ASsE-Scene-0138_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/nZx3eQ9ASsE-Scene-0138_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/nZx3eQ9ASsE-Scene-0138_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="0oqDrVK5GtE-Scene-0007">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/0oqDrVK5GtE-Scene-0007_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/0oqDrVK5GtE-Scene-0007_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/0oqDrVK5GtE-Scene-0007_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/0oqDrVK5GtE-Scene-0007_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="BGUGoN3P-IM-Scene-0010">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/BGUGoN3P-IM-Scene-0010_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/BGUGoN3P-IM-Scene-0010_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/BGUGoN3P-IM-Scene-0010_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/BGUGoN3P-IM-Scene-0010_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="DhcLfWrLkJQ-Scene-0061">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/DhcLfWrLkJQ-Scene-0061_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/DhcLfWrLkJQ-Scene-0061_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/DhcLfWrLkJQ-Scene-0061_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/DhcLfWrLkJQ-Scene-0061_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="EFJVwi3CMnE-Scene-0115">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/EFJVwi3CMnE-Scene-0115_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/EFJVwi3CMnE-Scene-0115_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/EFJVwi3CMnE-Scene-0115_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/EFJVwi3CMnE-Scene-0115_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="k1FXU2Q3ZJ0-Scene-0019">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/k1FXU2Q3ZJ0-Scene-0019_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/k1FXU2Q3ZJ0-Scene-0019_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/k1FXU2Q3ZJ0-Scene-0019_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/k1FXU2Q3ZJ0-Scene-0019_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="oFrjTAa7N4M-Scene-0003">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/oFrjTAa7N4M-Scene-0003_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/oFrjTAa7N4M-Scene-0003_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/oFrjTAa7N4M-Scene-0003_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/oFrjTAa7N4M-Scene-0003_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="-J5se0cv8kg-Scene-0058">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/-J5se0cv8kg-Scene-0058_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/-J5se0cv8kg-Scene-0058_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/-J5se0cv8kg-Scene-0058_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/-J5se0cv8kg-Scene-0058_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="-VggiLDp3-k-Scene-0116">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/-VggiLDp3-k-Scene-0116_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/-VggiLDp3-k-Scene-0116_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/-VggiLDp3-k-Scene-0116_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/-VggiLDp3-k-Scene-0116_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="item" data-sync-row="5K0aI4fUGeA-Scene-0075">
+          <div class="layer-grid four">
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/5K0aI4fUGeA-Scene-0075_full_video.mp4"></video><figcaption>Full</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/5K0aI4fUGeA-Scene-0075_background.mp4"></video><figcaption>Background</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/5K0aI4fUGeA-Scene-0075_foreground.mp4"></video><figcaption>Foreground</figcaption></figure>
+            <figure class="layer-cell"><video autoplay muted loop playsinline preload="auto" data-row-sync src="static/videos/samples/5K0aI4fUGeA-Scene-0075_mask.mp4"></video><figcaption>Alpha</figcaption></figure>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="section hero is-light" id="dataset">
+    <div class="container is-max-desktop">
+      <div class="has-text-centered">
+        <h2 class="title is-3">VidLayer Dataset</h2>
+        <p class="section-lead">
+          The first large-scale layer-aligned video corpus. An automated pipeline turns 200K raw caption-video pairs
+          into 50K structured samples &mdash; each with the full video, foreground, background, alpha matte, and
+          layer-level captions.
+        </p>
+      </div>
+
+      <figure class="paper-figure">
+        <img src="static/images/data-engine.png" alt="VidLayer data construction pipeline." loading="lazy">
+        <figcaption>
+          <strong>Three automated stages</strong>: semantic annotation (Qwen3-VL + SAM3), multi-layer component
+          extraction (MatAnyone + Gen-Omnimatte), and GPT-4o powered artefact auto-checking.
+        </figcaption>
+      </figure>
+
+      <figure class="paper-figure">
+        <img src="static/images/dataset.png" alt="VidLayer dataset samples and statistics." loading="lazy">
+        <figcaption>
+          <strong>Diverse and balanced</strong>: single- and multi-foreground samples covering people, animals,
+          vehicles, and natural scenes &mdash; with semantic redundancy filtering for prompt diversity.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" id="comparison">
+    <div class="container is-max-desktop">
+      <div class="has-text-centered">
+        <h2 class="title is-3">Comparison with Baselines</h2>
+        <p class="section-lead">
+          Against LayerFlow on held-out VidLayer prompts, LayerT2V produces sharper foregrounds, cleaner backgrounds,
+          and tighter cross-layer alignment.
+        </p>
+      </div>
+
+      <figure class="paper-figure">
+        <img src="static/images/comparison.png" alt="Qualitative comparison with LayerFlow." loading="lazy">
+        <figcaption>
+          Qualitative comparison. BL/BG/FG correspond to the full-video, background, and foreground prompts.
+        </figcaption>
+      </figure>
+
+      <div class="result-tables">
+        <div class="result-table-card">
+          <h3>VBench (held-out, 200 prompts)</h3>
+          <p>LayerT2V wins on every dimension of foreground / background / blended outputs.</p>
+          <ul class="metric-list">
+            <li><span>Aesthetic Quality &uarr;</span><strong>0.497&nbsp;/&nbsp;0.558&nbsp;/&nbsp;0.539</strong></li>
+            <li><span>Motion Smoothness &uarr;</span><strong>0.992&nbsp;/&nbsp;0.992&nbsp;/&nbsp;0.985</strong></li>
+            <li><span>Temporal Flickering &uarr;</span><strong>0.987&nbsp;/&nbsp;0.983&nbsp;/&nbsp;0.968</strong></li>
+            <li><span>Subject Consistency &uarr;</span><strong>0.983&nbsp;/&nbsp;0.984&nbsp;/&nbsp;0.975</strong></li>
+            <li><span>Text Alignment &uarr;</span><strong>0.201&nbsp;/&nbsp;0.231&nbsp;/&nbsp;0.214</strong></li>
+          </ul>
+        </div>
+        <div class="result-table-card">
+          <h3>User Study (30 participants)</h3>
+          <p>Preference rates &mdash; higher is better. LayerT2V is preferred by a 4&ndash;6&times; margin.</p>
+          <ul class="metric-list">
+            <li><span>Aesthetic Quality &uarr;</span><strong>0.724</strong> <em>vs.</em> 0.120 / 0.156</li>
+            <li><span>Foreground Quality &uarr;</span><strong>0.768</strong> <em>vs.</em> 0.156 / 0.076</li>
+            <li><span>Text Alignment &uarr;</span><strong>0.668</strong> <em>vs.</em> 0.136 / 0.196</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section hero is-light" id="ablation">
+    <div class="container is-max-desktop">
+      <div class="has-text-centered">
+        <h2 class="title is-3">Ablation</h2>
+        <p class="section-lead">
+          LayerAdaLN and layered cross-attention are both essential. 4D RoPE fails to disentangle layer identity
+          from temporal dynamics; the native Mask VAE produces blurry mattes &mdash; VAE LoRA fixes both.
+        </p>
+      </div>
+
+      <figure class="paper-figure">
+        <img src="static/images/ablation.png" alt="Ablation results." loading="lazy">
+        <figcaption>
+          <strong>(a&ndash;b)</strong> 4D RoPE breaks pretrained spatiotemporal encoding.
+          <strong>(c&ndash;d)</strong> VAE LoRA produces sharper masks than a from-scratch Mask VAE.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" id="more">
+    <div class="container is-max-desktop">
+      <div class="has-text-centered">
+        <h2 class="title is-3">More Qualitative Results</h2>
+        <p class="section-lead">
+          Three generation modes &mdash; single foreground with single subject, single foreground with multiple
+          subjects, and multi-foreground with independent layers.
+        </p>
+      </div>
+
+      <figure class="paper-figure">
+        <img src="static/images/qualitative.png" alt="Additional LayerT2V qualitative results." loading="lazy">
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" id="bibtex">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">BibTeX</h2>
+      <div class="bibtex-card">
+        <button class="copy-bibtex-btn" type="button" data-copy-target="bibtex-code">
+          <i class="fas fa-copy"></i><span class="copy-text">Copy</span>
+        </button>
+<pre><code id="bibtex-code">@misc{li2026layert2vunifiedmultilayervideo,
+  title  = {LayerT2V: A Unified Multi-Layer Video Generation Framework},
+  author = {Guangzhao Li and Kangrui Cen and Baixuan Zhao and Yi Xin and
+            Siqi Luo and Guangtao Zhai and Lei Zhang and Xiaohong Liu},
+  year   = {2026},
+  eprint = {2508.04228},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CV},
+  url    = {https://arxiv.org/abs/2508.04228}
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <p>
+          Page source available on <a href="https://github.com/layert2v/layert2v.github.io" target="_blank" rel="noopener">GitHub</a>.
+          Built on the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener">Academic Project Page Template</a>
+          by Eliahu Horwitz, which in turn adapts the
+          <a href="https://nerfies.github.io/" target="_blank" rel="noopener">Nerfies</a> design.
+          Released under <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+</body>
 </html>
